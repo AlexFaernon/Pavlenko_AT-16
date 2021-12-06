@@ -6,8 +6,29 @@ CELL_Y_OFFSET = 10
 GREY_GRADATION = 50
 
 
+def try_image_from_path(path):
+    try:
+        Image.open(path)
+        return True
+    except FileNotFoundError:
+        return False
+
+
+def try_save(res, path):
+    try:
+        res.save(path)
+        return True
+    except FileNotFoundError:
+        return False
+
+
 def filtering():
-    img = Image.open("img2.jpg")
+    path = input()
+    while True:
+        if try_image_from_path(path):
+            img = Image.open(path)
+            break
+
     img_matrix = np.array(img)
     len_x = len(img_matrix)
     len_y = len(img_matrix[1])
@@ -24,4 +45,11 @@ def filtering():
             cell_y = cell_y + CELL_Y_OFFSET
         cell_x = cell_x + CELL_X_OFFSET
     res = Image.fromarray(img_matrix)
-    res.save('res.jpg')
+
+    while True:
+        path = input()
+        if try_save(res, path):
+            break
+
+
+filtering()
